@@ -10,17 +10,17 @@
 	<img type="text/javascript">
 </head>
 <body>
-<h1>These are all my friends!</h1>
-	<form action='/friends' method='POST'>
-		{% for friend in friends %}
-			<p>First Name: {{friend['first_name']}}</p>
-			<p>Last Name: {{friend['last_name']}}</p>
-			<p>Occupation: {{friend['occupation']}}</p>
-			<input type="submit"  method="GET" name="edit" value="Edit">
-			<input type="submit" method="POST" name="delete" value="Delete">
-			<hr>
-			{% endfor %}
-	</form>
+	<h1>These are all my friends!</h1>
+	{% for friend in friends %}
+		<!-- {{friend['id']}} -->
+		<p>First Name: {{friend['first_name']}}</p>
+		<p>Last Name: {{friend['last_name']}}</p>
+		<p>Occupation: {{friend['occupation']}}</p>
+		<a href="/friends/{{friend['id']}}/edit">Edit</a>
+		<form action="/friends/{{friend['id']}}/delete" method="post">
+			<button>Delete</button>
+		</form>
+	{% endfor %}
 		<h2>Add a Friend</h2>
 		<form action='/friends' method='POST'>
 			<label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>

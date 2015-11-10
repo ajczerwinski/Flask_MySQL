@@ -14,9 +14,5 @@ def create():
 	query = "INSERT INTO friends (first_name, last_name, occupation, created_at, updated_at) VALUES ('{}', '{}', '{}', NOW(), NOW())".format(request.form['first_name'], request.form['last_name'], request.form['occupation'])
 	print query
 	mysql.run_mysql_query(query)
-	# print request.form['first_name']
-	# print request.form['last_name']
-	# print request.form['occupation']
-    # add a friend to the database!
 	return redirect('/')
 app.run(debug=True)

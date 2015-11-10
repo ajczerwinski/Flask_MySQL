@@ -4,19 +4,51 @@ import collections
 import mysql.connector
 app = Flask(__name__)
 mysql = MySQLConnector('friendsdb')
+
 @app.route('/')
 def index():
 	friends = mysql.fetch("SELECT * FROM friends")
-	print friends
 	return render_template('index.html', friends=friends)
+
+# Read not necessary for this assignment
+# @app.route('/friends', methods=['GET'])
+# def s_index():
+# 	query = "SELECT * FROM friends"
+# 	friends = mysql.fetch(query)
+# 	return response.render('index.html', friends=friends)
+
 @app.route('/friends', methods=['POST'])
 def create():
 	query = "INSERT INTO friends (first_name, last_name, occupation, created_at, updated_at) VALUES ('{}', '{}', '{}', NOW(), NOW())".format(request.form['first_name'], request.form['last_name'], request.form['occupation'])
 	print query
 	mysql.run_mysql_query(query)
-	# print request.form['first_name']
-	# print request.form['last_name']
-	# print request.form['occupation']
-    # add a friend to the database!
+	return redirect('/')
+
+# Show not necessary for this assignment
+# @app.route('/friends/<int:id>', methods=['PUT', 'POST'])
+# def show(id):
+# 	query = "SELECT * FROM friends where id = {}".format(id)
+# 	friends = mysql.fetch(query)
+# 	return "show"
+
+@app.route('/friends/<int:id>/edit', methods=['GET'])
+def edit(id):
+	friend = mysql.fetch("SELECT * FROM friends where id ={}".format(id))
+	if friend:
+		return render_template('edit.html', friends=friend)
+	return redirect('/friends/'+str(id))
+
+@app.route('/friends/<int:id>/update', methods=['POST'])
+def update(id):
+	query = "UPDATE friends SET first_name='{}', last_name='{}', occupation='{}' WHERE id='{}'".format(request.form['first_name'], request.form['last_name'], request.form['occupation'],id)
+	# print query
+	mysql.run_mysql_query(query)
+	return redirect('/')
+
+@app.route('/friends/<int:id>/delete', methods = ['DELETE', 'POST'])
+def delete(id):
+	friends = mysql.fetch("SELECT * FROM friends where id = {}".format(id))
+	query = "DELETE FROM friends WHERE id = {}".format(id)
+	mysql.run_mysql_query(query)
 	return redirect('/')
 app.run(debug=True)
