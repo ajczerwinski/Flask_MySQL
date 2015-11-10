@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login and Registration Assignment</title>
+	<!-- linking a css style sheet -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	<!-- linking a javascript file -->
+	<script type="text/javascript" src='{{ url_for('static', filename='my_script.js') }}'></script>
+	<!-- linking an image -->
+	<img type="text/javascript">
+</head>
+<body>
+	<h1>This is an awesome site and here are our users:</h1>
+	{% for user in users: %}
+		<p>ID: {{user['id']}}</p>
+		<p>First Name: {{user['first_name']}}</p>
+		<p>Last Name: {{user['last_name']}}</p>
+		<p>Email: {{user['email']}}</p>
+		<p>Password: {{user['password']}}</p>
+	{% endfor %}
+	<h2>You should register here:</h2>
+	<form action='/register' method='POST'>
+		<label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
+		<label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
+		<label for="email">Email:<input type="text" name="email" id="email"></label>
+		<label for="password">Password:<input type="text" name="password" id="password"></label>
+		<input type="submit" value="Register!">
+	</form>
+</body>
+</html>
