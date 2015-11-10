@@ -11,13 +11,15 @@
 </head>
 <body>
 	<div id="wrapper">
-		{% with messages = get_flashed_messages() %}
-			{% if messages %}
-				{% for message in messages %}
-					<h3>{{ message }}</h3>
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
+		<div id="success">
+			<h3>The email address you entered ( {{ request.form['email'] }} ) is a VALID email address! Thank you!</h3>
+		</div>
+		<h3>Email Addresses Entered:</h3>
+		{% for email in emails %}
+			<p>{{email['email']}} {{email['created_at']}}</p>
+		{% endfor %}
+
+
 		
 	</div>
 </body>
