@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Full Friends</title>
+	<!-- linking a css style sheet -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	<!-- linking a javascript file -->
+	<script type="text/javascript" src='{{ url_for('static', filename='my_script.js') }}'></script>
+	<!-- linking an image -->
+	<img type="text/javascript">
+</head>
+<body>
+<h1>These are all my friends!</h1>
+	<form action='/friends' method='POST'>
+		{% for friend in friends %}
+			<p>First Name: {{friend['first_name']}}</p>
+			<p>Last Name: {{friend['last_name']}}</p>
+			<p>Occupation: {{friend['occupation']}}</p>
+			<input type="submit"  method="GET" name="edit" value="Edit">
+			<input type="submit" method="POST" name="delete" value="Delete">
+			<hr>
+			{% endfor %}
+	</form>
+		<h2>Add a Friend</h2>
+		<form action='/friends' method='POST'>
+			<label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
+			<label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
+			<label for="occupation">Occupation:<input type="text" name="occupation" id="occupation"></label>
+			<input type="submit" value="Add">
+		</form>
+</body>
+</html>
