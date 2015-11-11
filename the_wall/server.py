@@ -24,13 +24,13 @@ def getComments():
 
 def post_message(user_id, message):
 	message = str(message).replace("'", "\\'")
-	insert = "INSERT INTO messages ('user_id', 'message', 'created_at', 'updated_at') VALUES ('{}', '{}', NOW(), NOW())"
+	insert = "INSERT INTO messages (user_id, message, created_at, updated_at) VALUES ('{}', '{}', NOW(), NOW())"
 	query = insert.format(user_id, message)
 	mysql.run_mysql_query(query)
 
 def post_comment(message_id, user_id, comment):
-	comment = str(comment).replates("'", "\\'")
-	insert = "INSERT INTO comments ('message_id', 'user_id', 'comment', 'created_at', 'updated_at') VALUES ('{}', '{}', '{}', NOW(), NOW())"
+	comment = str(comment).replace("'", "\\'")
+	insert = "INSERT INTO comments (message_id, user_id, comment, created_at, updated_at) VALUES ('{}', '{}', '{}', NOW(), NOW())"
 	query = insert.format(message_id, user_id, comment)
 	mysql.run_mysql_query(query)
 
