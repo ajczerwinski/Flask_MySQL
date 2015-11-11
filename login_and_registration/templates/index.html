@@ -11,13 +11,6 @@
 </head>
 <body>
 	<h1>This is an awesome site and here are our users:</h1>
-	{% for user in users: %}
-		<p>ID: {{user['id']}}</p>
-		<p>First Name: {{user['first_name']}}</p>
-		<p>Last Name: {{user['last_name']}}</p>
-		<p>Email: {{user['email']}}</p>
-		<p>Password: {{user['password']}}</p>
-	{% endfor %}
 	<h2>You should register here:</h2>
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
@@ -33,5 +26,23 @@
 		<label for="password">Password:<input type="password" name="password" id="password"></label>
 		<input type="submit" value="Register!">
 	</form>
+	<br>
+	<h2>Returning user? Log in here!</h2>
+	<form action='/login' method='POST'>
+		<label for="email">Email:<input type="text" name="email" id="email"></label>
+		<label for="password">Password:<input type="password" name="password" id="password"></label>
+		<input type="submit" value="Sign in">
+	</form>
+	<form action='/logout' method='POST'>
+		<input type="submit" value="Sign out">
+	</form>
+	<!-- {% for user in users: %}
+		<p>ID: {{user['id']}}</p>
+		<p>First Name: {{user['first_name']}}</p>
+		<p>Last Name: {{user['last_name']}}</p>
+		<p>Email: {{user['email']}}</p>
+		<p>Password: {{user['password']}}</p>
+	{% endfor %} -->
+
 </body>
 </html>

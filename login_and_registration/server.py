@@ -35,14 +35,41 @@ def create():
 	elif not EMAIL_REGEX.match(email):
 		flash("Invalid Email Address")
 		return redirect('/')
+	# Need to check to see if email already exists in DB
 	elif len(password) < 9:
 		flash("Password must have more than 8 characters!")
 		return redirect('/')
 	else:
 		pw_hash = bcrypt.generate_password_hash(password)
 		password = pw_hash
+		print password
 		query = "INSERT INTO users (first_name, last_name, email, password, created_at) VALUES ('{}', '{}', '{}', '{}', NOW())".format(first_name, last_name, email, password)
-		print query
+		print "Below me is the user query"
 		mysql.run_mysql_query(query)
-	return render_template('success.html')
+		user_query = "SELECT * FROM users WHERE email = '{}' LIMIT 1".format(email)
+		user = mysql.fetch(user_query)
+		print user
+		session['user'] = user[0]
+		session_user_id = session['user']
+		print "Above me is the session user ID index 0!!"
+		return render_template('success.html', session_user_id=session_user_id)
+@app.route('/login', methods=['POST'])
+def login():
+	email = request.form['email']
+	password = request.form['password']
+	user_query = "SELECT * FROM users WHERE email = '{}' LIMIT 1".format(email)
+	print user_query
+	user = mysql.fetch(user_query)
+	decoded_password = user[0]['password']
+	if bcrypt.check_password_hash(decoded_password, str(password)):
+		session['user'] = user[0]
+		session_user_id = session['user']
+		return render_template('success.html', session_user_id=session_user_id)
+	else:
+		flash("Email and password don't match. Try again!")
+		return redirect('/')
+@app.route('/logout', methods=['POST'])
+def logout():
+	session.clear()
+	return redirect('/')
 app.run(debug=True)
