@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login and Registration Assignment</title>
+	<!-- linking a css style sheet -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	<!-- linking a javascript file -->
+	<script type="text/javascript" src='{{ url_for('static', filename='my_script.js') }}'></script>
+	<!-- linking an image -->
+	<img type="text/javascript">
+</head>
+<body>
+	<div id="wrapper">
+		<div class='top_nav'>
+			<h1>CodingDojo Wall</h1>
+			<div class='right_nav'>
+				<h3>Welcome {{ session_user_id['first_name'] }}</h3>
+			</div>
+		</div>
+		<div id="message_area">
+			<h3>Post a message</h3>
+			<form action="/message" method='POST'>
+				<textarea rows="10" cols="50" name="messages" id="messages_box">
+			{% for message in messages %}
+			{{ message }}
+			{% endfor %}
+				</textarea>
+				<br>
+				<input type="submit" value="Post a message">
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
