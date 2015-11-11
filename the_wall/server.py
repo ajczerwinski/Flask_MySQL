@@ -74,6 +74,33 @@ def login():
 		flash("Email and password don't match. Try again!")
 		return redirect('/')
 
+@app.route('/wall', methods=['POST'])
+def wall():
+	message = mysql.fetch("SELECT * FROM messages")
+	return render_template('wall.html', messages=messages)
+
+@app.route('/message', methods=['POST'])
+def post_message():
+	user_id = request.form['user_id']
+	post_message = request.form['messages']
+	query = "INSERT INTO messages (user_id, message, created_at, updated_at) VALUES ('{}', '{}', NOW(), NOW())".format(user_id, post_message)
+	mysql.run_mysql_query(query)
+	user_query = "SELECT users.first_name, users.last_name, messages.created_at, messages.message FROM users LEFT JOIN messages ON users.id = messages.user_id ORDER BY messages.created_at DESC"
+	messages = mysql.fetch(user_query)
+	print messages
+	return redirect('/wall', messages=messages)
+
+@app.route('/comment', methods=['POST'])
+def comment():
+	message_id = request.form['message_id']
+	user_id = request.form['user_id']
+	comment = request.form['comments']
+	query = "INSERT INTO comments (message_id, user_id, comment, created_at, updated_at) VALUES ('{}', '{}', '{}', NOW(), NOW())".format(message_id, user_id, comment)
+	mysql.run_mysql_query(query)
+	user_query = "SELECT users.first_name, users.last_name, comments.created_at, comments.comment FROM users LEFT JOIN comments ON users.id = comments.user_id LEFT JOIN messages ON messages.id = comments.message_id ORDER BY comments.id ASC"
+	comments = mysql.fetch(user_query)
+	print users
+	return render_template('wall.html', comments=comments)
 @app.route('/logout', methods=['POST'])
 def logout():
 	session.clear()

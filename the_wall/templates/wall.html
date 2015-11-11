@@ -17,18 +17,20 @@
 				<h3>Welcome {{ session_user_id['first_name'] }}</h3>
 			</div>
 		</div>
+		<hr>
 		<div id="message_area">
 			<h3>Post a message</h3>
 			<form action="/message" method='POST'>
-				<textarea rows="10" cols="50" name="messages" id="messages_box">
-			{% for message in messages %}
-			{{ message }}
-			{% endfor %}
+				<textarea rows="10" cols="100" name="messages" id="messages_box">
 				</textarea>
 				<br>
 				<input type="submit" value="Post a message">
 			</form>
+			{% for message in messages %}
+				{{ message }}
+			{% endfor %}
 		</div>
+		TODO - Add Comment Area and get messages to show up
 	</div>
 
 </body>
