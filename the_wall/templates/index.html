@@ -1,41 +1,46 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
 	<title>The Wall</title>
-	<!-- linking a css style sheet -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-	<!-- linking a javascript file -->
-	<script type="text/javascript" src='{{ url_for('static', filename='my_script.js') }}'></script>
-	<!-- linking an image -->
-	<img type="text/javascript">
+	<link rel="stylesheet" type="text/css" href="{{  url_for('static', filename='style.css')}}">
 </head>
 <body>
-	<h1>Sign up for The Wall!</h1>
-	<h2>Register Here!</h2>
-		{% with messages = get_flashed_messages() %}
-			{% if messages %}
-				{% for message in messages %}
-					<p>{{ message }}</p>
-				{% endfor %}
-			{% endif %}
-		{% endwith %}
-	<form action='/register' method='POST'>
-		<label for="first_name">First Name:<input type="text" name="first_name" id="first_name"></label>
-		<label for="last_name">Last Name:<input type="text" name="last_name" id="last_name"></label>
-		<label for="email">Email:<input type="text" name="email" id="email"></label>
-		<label for="password">Password:<input type="password" name="password" id="password"></label>
-		<label for="confirm_password">Confirm Password:<input type="password" name="confirm_password" id="confirm_password"></label>
-		<input type="submit" value="Register!">
-	</form>
-	<br>
-	<h2>Returning user? Log in here!</h2>
-		<form action='/login' method="POST">
-			<label for="email">Email:<input type="text" name="email" id="email"></label>
-			<label for="password">Password:<input type="password" name="password" id="password"></label>
-			<input type="submit" value="Sign in">
-		</form>
-		<form action='/logout' method='POST'>
-			<input type="submit" value="Sign out">
-		</form>
+	<div id="wrapper">
+		<div id='registration'>
+			<h1>Register</h1>
+			<form action='/register', method="POST">
+				<p>First Name:</p>
+				<input type='text' name='first_name'>
+				<p>Last Name:</p>
+				<input type='text' name='last_name'>
+				<p>Email:</p>
+				<input type='text' name='email'>
+				<p>Password:</p>
+				<input type='password' name='password'>
+				<p>Confirm Password:</p>
+				<input type='password' name='confirm'>
+				<button>REGISTER</button>
+			</form>
+		</div>
+		<div id='login'>
+			<h1>LOGIN</h1>
+			<form action='login' method = 'POST'>
+				<p>Email:</p>
+				<input type='text' name='loginEmail'>
+				<p>Password:</p>
+				<input type='password' name='loginPassword'>
+				<button>SIGN IN</button>
+			</form>
+		</div>
+		<div id='error-messages'>
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for message in messages %}
+						<p class='error'>**{{message}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+	</div>
 </body>
 </html>

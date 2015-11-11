@@ -1,37 +1,49 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
-	<title>Login and Registration Assignment</title>
-	<!-- linking a css style sheet -->
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-	<!-- linking a javascript file -->
-	<script type="text/javascript" src='{{ url_for('static', filename='my_script.js') }}'></script>
-	<!-- linking an image -->
-	<img type="text/javascript">
+	<title>The Wall</title>
+	<link rel="stylesheet" type="text/css" href="{{  url_for('static', filename='style.css')}}">
 </head>
 <body>
 	<div id="wrapper">
-		<div class='top_nav'>
-			<h1>CodingDojo Wall</h1>
-			<div class='right_nav'>
-				<h3>Welcome {{ session_user_id['first_name'] }}</h3>
+		<div id="navigation">
+			<h2>CodingDojo Wall</h2>
+			<div id="shift_right">
+				<h3>Welcome <span>{{first_name}} {{last_name}}</span></h3>
+				<h3><a href="/logout">Log off</a></h3>
 			</div>
 		</div>
-		<hr>
-		<div id="message_area">
-			<h3>Post a message</h3>
-			<form action="/message" method='POST'>
-				<textarea rows="10" cols="100" name="messages" id="messages_box">
-				</textarea>
-				<br>
-				<input type="submit" value="Post a message">
+		<div id="post-message">
+			<h2>Post a Message</h2>
+			<form action='/message', method="POST">
+				<textarea rows='6' cols='75' name="message"></textarea>
+				<button>Post a message</button>
 			</form>
-			{% for message in messages %}
-				{{ message }}
-			{% endfor %}
 		</div>
-		TODO - Add Comment Area and get messages to show up
-	</div>
+		{% for message in messagedb %}
+			<div class="message">
+				<h3>{{message['first_name']}} {{message['last_name']}} - <time datetime="MM/DD/YYYY">{{message['timestamp']}}</time></h3>
+				<p>{{message['message']}}</p>
 
+				{% for comment in commentdb %}
+					{% if comment['id'] == message['id'] %}
+					<div class='post-comment'>
+						<h4>{{comment['first_name']}} {{comment['last_name']}} - {{comment['timestamp']}}</h4>
+						<p>{{comment['comment']}}</p>
+					</div>
+						{% endif %}
+					{% endfor %}
+
+					<div class='post-comment'>
+						<h4>Post a comment</h4>
+						<form action='/comment' method="POST">
+							<input type='hidden' name='message_id' value='{{message['id']}}'>
+							<textarea rows='6' cols='73' name='comment'></textarea>
+							<button>Post a comment</button>
+						</form>
+					</div>
+				</div>
+			{% endfor %}
+	</div>
 </body>
 </html>
